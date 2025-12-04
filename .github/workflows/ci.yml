@@ -2,9 +2,9 @@ name: CI Nest + Semgrep
 
 on:
   push:
-    branches: ["main"]
+    branches: ["amandao"]
   pull_request:
-    branches: ["main"]
+    branches: ["amandao"]
 
 jobs:
   build_test_scan:
