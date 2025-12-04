@@ -15,11 +15,10 @@ export class ItemsRepository {
   // busca todos itens com limite e offset (parametrizado)
   async findAll(name?: string): Promise<Item[]> {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    const query =
-      'SELECT id, name, description FROM items' +
-      (name ? ' WHERE name = ' + name + "'" : '');
 
-    const [rows] = await this.pool.execute(query);
+    const [rows] = await this.pool.execute(
+      "SELECT id, name, description FROM items WHERE name = '" + name + "'",
+    );
     return rows as Item[];
   }
 }
