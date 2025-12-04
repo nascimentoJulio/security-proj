@@ -12,13 +12,12 @@ export type Item = {
 export class ItemsRepository {
   constructor(@Inject(MYSQL_POOL) private readonly pool: promise.Pool) {}
 
-  // busca todos itens com limite e offset (parametrizado)
   async findAll(name?: string): Promise<Item[]> {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-
     const [rows] = await this.pool.execute(
-      "SELECT id, name, description FROM items WHERE name = '" + name + "'",
+      "SELECT id, name, description FROM items WHERE name = ?",
+      [name]
     );
+
     return rows as Item[];
   }
 }
