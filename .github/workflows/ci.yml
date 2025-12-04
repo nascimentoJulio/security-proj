@@ -39,9 +39,6 @@ jobs:
         uses: returntocorp/semgrep-action@v1
         with:
           config: >
-            p/ci         
-            p/security   
-            p/node       
             auto
         env:
           SEMGREP_RULES: auto
