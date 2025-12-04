@@ -33,21 +33,11 @@ jobs:
       - name: Run Tests
         run: npm run test
 
-      - name: Install Python
-        uses: actions/setup-python@v5
+      - name: Semgrep Scan (SAST)
+        uses: returntocorp/semgrep-action@v1
         with:
-          python-version: "3.x"
-
-      - name: Install Semgrep
-        run: pip install semgrep
-
-      - name: Run Semgrep Custom Rules
-        run: |
-          echo "Rodando Semgrep usando regras personalizadas..."
-          semgrep --config=semgrep-rules --json --output=semgrep-report.json --error
-
-      - name: Upload Semgrep report
-        uses: actions/upload-artifact@v4
-        with:
-          name: semgrep-report
-          path: semgrep-report.json
+          config: >
+            auto
+        env:
+          SEMGREP_RULES: auto
+          SEMGREP_SEND_METRICS: 'off'
