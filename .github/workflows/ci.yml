@@ -39,10 +39,10 @@ jobs:
         uses: returntocorp/semgrep-action@v1
         with:
           config: >
-            p/ci         # regras de CI
-            p/security   # regras de segurança
-            p/node       # regras para JS/TS
-            auto         # detecta linguagem e aplica mais regras
+            p/ci         
+            p/security   
+            p/node       
+            auto
         env:
           SEMGREP_RULES: auto
           SEMGREP_SEND_METRICS: 'off'
