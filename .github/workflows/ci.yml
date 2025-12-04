@@ -35,15 +35,14 @@ jobs:
       - name: Run tests
         run: npm test -- --passWithNoTests
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v4
+      - name: Semgrep Scan (SAST)
+        uses: returntocorp/semgrep-action@v1
         with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+          config: >
+            p/ci         # regras de CI
+            p/security   # regras de segurança
+            p/node       # regras para JS/TS
+            auto         # detecta linguagem e aplica mais regras
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          SEMGREP_RULES: auto
+          SEMGREP_SEND_METRICS: 'off'
