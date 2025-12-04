@@ -1,0 +1,43 @@
+name: CI Nest + Semgrep
+
+on:
+  push:
+    branches: ["amandao"]
+  pull_request:
+    branches: ["amandao"]
+
+permissions:
+  actions: read
+  security-events: write
+  contents: read
+
+jobs:
+  build_test_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Run Tests
+        run: npm run test
+
+      - name: Semgrep Scan (SAST)
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >
+            auto
+        env:
+          SEMGREP_RULES: auto
+          SEMGREP_SEND_METRICS: 'off'

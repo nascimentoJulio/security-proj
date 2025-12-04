@@ -1,0 +1,8 @@
+rules:
+  - id: nestjs-risky-query-builder
+    patterns:
+      - pattern: |
+          $QB.query(`...${$INPUT}...`)
+    message: Possível SQL Injection detectada no uso de QueryBuilder com template strings.
+    languages: [ts]
+    severity: ERROR
