@@ -1,0 +1,43 @@
+name: IFSecurity
+
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+permissions:
+  actions: read
+  security-events: write
+  contents: read
+
+jobs:
+  ifsecurity:
+    name: IFSecurity Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install IFSecurity
+        run: npm install
+
+      - name: Build IFSecurity
+        run: npm run build
+
+      - name: Run IFSecurity Tests
+        run: npm test -- --passWithNoTests
+
+      - name: Semgrep Scan (SAST)
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: >
+            auto
+        env:
+          SEMGREP_RULES: auto
+          SEMGREP_SEND_METRICS: 'off'
